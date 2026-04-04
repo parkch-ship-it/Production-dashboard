@@ -1,0 +1,405 @@
+/* ── 기본 리셋 ──────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #f0f2f5;
+  --card-bg: #ffffff;
+  --header-bg: #1a1f2e;
+  --text: #1a1f2e;
+  --text-muted: #6b7280;
+  --border: #e5e7eb;
+  --green: #10b981;
+  --yellow: #f59e0b;
+  --red: #ef4444;
+  --blue: #3b82f6;
+  --radius: 12px;
+  --shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── 헤더 ──────────────────────────────────── */
+header {
+  background: var(--header-bg);
+  color: #fff;
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+}
+
+.header-left h1 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+#updated-at {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+#refresh-btn {
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+#refresh-btn:hover { background: #2563eb; }
+
+.calendar-link-btn {
+  background: #059669;
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s;
+}
+.calendar-link-btn:hover { background: #047857; }
+
+/* ── main 여백 ─────────────────────────────── */
+main { padding: 24px 32px; max-width: 1600px; margin: 0 auto; }
+
+/* ── 인증 화면 ─────────────────────────────── */
+.auth-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+}
+
+.auth-box {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 48px 40px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  max-width: 400px;
+}
+
+.auth-icon { font-size: 3rem; margin-bottom: 16px; }
+.auth-box h2 { margin-bottom: 10px; }
+.auth-box p  { color: var(--text-muted); margin-bottom: 24px; font-size: 0.9rem; }
+
+.auth-btn {
+  display: inline-block;
+  background: #4285F4;
+  color: #fff;
+  padding: 12px 28px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.auth-btn:hover { background: #3367d6; }
+
+/* ── 로딩 ──────────────────────────────────── */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  gap: 16px;
+  color: var(--text-muted);
+}
+
+.spinner {
+  width: 40px; height: 40px;
+  border: 4px solid var(--border);
+  border-top-color: var(--blue);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── 오류 ──────────────────────────────────── */
+.error-screen {
+  text-align: center;
+  padding: 60px;
+  color: var(--red);
+}
+
+.error-screen button {
+  margin-top: 16px;
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: 1px solid var(--red);
+  background: #fff;
+  color: var(--red);
+  cursor: pointer;
+}
+
+/* ── 요약 바 ────────────────────────────────── */
+.summary-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.summary-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.summary-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.summary-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.highlight-green .summary-value { color: var(--green); }
+.highlight-red   .summary-value { color: var(--red); font-size: 1.1rem; }
+
+/* ── 공정 카드 그리드 ───────────────────────── */
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.process-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  border-left: 4px solid var(--border);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.process-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+.process-card.color-green  { border-left-color: var(--green); }
+.process-card.color-yellow { border-left-color: var(--yellow); }
+.process-card.color-red    { border-left-color: var(--red); }
+
+.process-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 14px;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+/* 진행률 바 */
+.progress-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.progress-bar-bg {
+  flex: 1;
+  height: 8px;
+  background: var(--border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.8s ease;
+}
+
+.progress-pct {
+  font-size: 0.9rem;
+  font-weight: 700;
+  min-width: 38px;
+  text-align: right;
+}
+
+/* 통계 태그 */
+.stat-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.stat-tag {
+  font-size: 0.78rem;
+  padding: 3px 10px;
+  border-radius: 99px;
+  font-weight: 500;
+}
+
+.tag-total     { background: #f3f4f6; color: var(--text-muted); }
+.tag-done      { background: #d1fae5; color: #065f46; }
+.tag-pending   { background: #fee2e2; color: #991b1b; }
+
+/* ── 미진행 목록 섹션 ───────────────────────── */
+.not-started-section {
+  margin-top: 8px;
+}
+
+.not-started-section h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+
+.ns-block {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.ns-block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 1px solid transparent;
+  transition: background 0.15s;
+}
+
+.ns-block-header:hover { background: #f9fafb; }
+.ns-block-header.open  { border-bottom-color: var(--border); }
+
+.ns-block-title {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.ns-badge {
+  background: #fee2e2;
+  color: #991b1b;
+  font-size: 0.78rem;
+  padding: 2px 10px;
+  border-radius: 99px;
+  font-weight: 600;
+}
+
+.ns-badge.zero {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.ns-chevron {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  transition: transform 0.2s;
+}
+
+.ns-chevron.open { transform: rotate(180deg); }
+
+.ns-table-wrap {
+  display: none;
+  overflow-x: auto;
+}
+
+.ns-table-wrap.open { display: block; }
+
+.ns-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.ns-table th {
+  background: #f9fafb;
+  padding: 10px 16px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  border-bottom: 1px solid var(--border);
+}
+
+.ns-table td {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+
+.ns-table tr:last-child td { border-bottom: none; }
+.ns-table tr:hover td { background: #f9fafb; }
+
+.empty-row td {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 20px;
+}
+
+/* ── 정렬 헤더 ─────────────────────────────── */
+.sortable-th {
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.sortable-th:hover { background: #f0f0f0; }
+
+.sort-icon {
+  margin-left: 4px;
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+
+/* ── 유틸 ──────────────────────────────────── */
+.hidden { display: none !important; }
+
+/* ── 반응형 ─────────────────────────────────── */
+@media (max-width: 900px) {
+  main { padding: 16px; }
+  .summary-bar { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  header { padding: 12px 16px; }
+  .header-left h1 { font-size: 1rem; }
+  .summary-bar { grid-template-columns: 1fr 1fr; }
+  .process-grid { grid-template-columns: 1fr; }
+}
