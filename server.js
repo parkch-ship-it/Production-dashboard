@@ -13,6 +13,34 @@ const IS_PROD = !!process.env.GOOGLE_CREDENTIALS;
 const REDIRECT_URI = IS_PROD
   ? `${process.env.APP_URL}/oauth2callback`
   : `http://localhost:${PORT}/oauth2callback`;
+
+// 토큰 읽기 (배포: 환경변수 / 로컬: 파일)
+function readToken() {
+  if (IS_PROD) {
+    const t = process.env.GOOGLE_TOKEN;
+    return t ? JSON.parse(t) : null;
+  }
+  if (fs.existsSync(TOKEN_PATH)) return JSON.parse(fs.readFileSync(TOKEN_PATH));
+  return null;
+}
+
+// 토큰 존재 여부
+function hasToken() {
+  if (IS_PROD) return !!process.env.GOOGLE_TOKEN;
+  return fs.existsSync(TOKEN_PATH);
+}
+
+// 토큰 저장 (로컬만 저장, 배포 환경은 콘솔에 출력)
+function saveToken(tokens) {
+  if (IS_PROD) {
+    // Vercel 환경에서는 직접 저장 불가 → 콘솔에 출력해서 환경변수로 수동 등록
+    console.log('=== GOOGLE_TOKEN 환경변수에 아래 값을 등록하세요 ===');
+    console.log(JSON.stringify(tokens));
+    console.log('=====================================================');
+  } else {
+    fs.writeFileSync(TOKEN_PATH, JSON.stringify(tokens, null, 2));
+  }
+}
 const SCOPES = [
   'https://www.googleapis.com/auth/spreadsheets.readonly',
   'https://www.googleapis.com/auth/drive.readonly',
@@ -185,8 +213,7 @@ app.get('/api/image', async (req, res) => {
 
   try {
     const oAuth2Client = getOAuth2Client();
-    const token = JSON.parse(fs.readFileSync(TOKEN_PATH));
-    oAuth2Client.setCredentials(token);
+    oAuth2Client.setCredentials(readToken());
 
     const drive = google.drive({ version: 'v3', auth: oAuth2Client });
     const fileRes = await drive.files.get(
@@ -207,8 +234,7 @@ app.get('/api/image', async (req, res) => {
 app.get('/api/debug', async (req, res) => {
   try {
     const oAuth2Client = getOAuth2Client();
-    const token = JSON.parse(fs.readFileSync(TOKEN_PATH));
-    oAuth2Client.setCredentials(token);
+    oAuth2Client.setCredentials(readToken());
     const rows = await fetchSheetData(oAuth2Client);
 
     // 첫 6행을 인덱스와 함께 정리
@@ -259,8 +285,8 @@ app.get('/oauth2callback', async (req, res) => {
   try {
     const oAuth2Client = getOAuth2Client();
     const { tokens } = await oAuth2Client.getToken(code);
-    fs.writeFileSync(TOKEN_PATH, JSON.stringify(tokens, null, 2));
-    console.log('✅ 인증 완료. 토큰 저장됨.');
+    saveToken(tokens);
+    console.log('✅ 인증 완료.');
     res.redirect('/');
   } catch (err) {
     console.error('토큰 교환 오류:', err.message);
@@ -271,18 +297,16 @@ app.get('/oauth2callback', async (req, res) => {
 // 대시보드 데이터 API
 app.get('/api/data', async (req, res) => {
   try {
-    if (!fs.existsSync(TOKEN_PATH)) {
+    if (!hasToken()) {
       return res.status(401).json({ error: 'unauthorized' });
     }
 
     const oAuth2Client = getOAuth2Client();
-    const token = JSON.parse(fs.readFileSync(TOKEN_PATH));
-    oAuth2Client.setCredentials(token);
+    oAuth2Client.setCredentials(readToken());
 
     // 토큰 갱신 시 자동 저장
     oAuth2Client.on('tokens', (newTokens) => {
-      const current = JSON.parse(fs.readFileSync(TOKEN_PATH));
-      fs.writeFileSync(TOKEN_PATH, JSON.stringify({ ...current, ...newTokens }, null, 2));
+      saveToken({ ...readToken(), ...newTokens });
     });
 
     const rows = await fetchSheetData(oAuth2Client);
@@ -293,7 +317,7 @@ app.get('/api/data', async (req, res) => {
   } catch (err) {
     console.error('API 오류:', err.message);
     if (err.message?.includes('invalid_grant') || err.code === 401) {
-      if (fs.existsSync(TOKEN_PATH)) fs.unlinkSync(TOKEN_PATH);
+      if (!IS_PROD && fs.existsSync(TOKEN_PATH)) fs.unlinkSync(TOKEN_PATH);
       return res.status(401).json({ error: 'token_expired' });
     }
     res.status(500).json({ error: err.message });
@@ -303,11 +327,10 @@ app.get('/api/data', async (req, res) => {
 // 캘린더용 입고 일정 API
 app.get('/api/calendar', async (req, res) => {
   try {
-    if (!fs.existsSync(TOKEN_PATH)) return res.status(401).json({ error: 'unauthorized' });
+    if (!hasToken()) return res.status(401).json({ error: 'unauthorized' });
 
     const oAuth2Client = getOAuth2Client();
-    const token = JSON.parse(fs.readFileSync(TOKEN_PATH));
-    oAuth2Client.setCredentials(token);
+    oAuth2Client.setCredentials(readToken());
 
     const rows = await fetchSheetData(oAuth2Client);
     const { products } = processData(rows);
@@ -357,12 +380,12 @@ app.get('/api/calendar', async (req, res) => {
 
 // 인증 상태 확인
 app.get('/api/auth-status', (req, res) => {
-  res.json({ authenticated: fs.existsSync(TOKEN_PATH) });
+  res.json({ authenticated: hasToken() });
 });
 
 app.listen(PORT, () => {
   console.log(`\n🚀 서버 실행 중: http://localhost:${PORT}`);
-  if (!fs.existsSync(TOKEN_PATH)) {
+  if (!hasToken()) {
     console.log(`⚠️  구글 인증 필요 → http://localhost:${PORT}/auth 접속\n`);
   } else {
     console.log('✅ 인증 완료. 대시보드 사용 가능\n');
