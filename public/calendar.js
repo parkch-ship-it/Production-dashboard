@@ -230,7 +230,7 @@ function openModal(dateKey, items) {
   el('modal-date').textContent = `${y}년 ${parseInt(m)}월 ${parseInt(d)}일 — 입고 ${items.length}건`;
 
   el('modal-body').innerHTML = items.map(p => `
-    <div class="modal-item">
+    <div class="modal-item cal-modal-clickable" onclick="openDetailPopup(${JSON.stringify(p).replace(/"/g, '&quot;')})">
       ${p.image
         ? `<img class="modal-img" src="${p.image}" alt="도식화" onerror="this.style.display='none'">`
         : `<div class="modal-img-placeholder">👕</div>`}

@@ -70,42 +70,8 @@ function renderTable(products) {
   }).join('');
 }
 
-// ── 상세 팝업 ─────────────────────────────────
-function openDetail(p) {
-  const img = el('detail-img');
-  const placeholder = el('detail-img-placeholder');
-
-  if (p.image) {
-    img.src = p.image;
-    img.style.display = 'block';
-    placeholder.style.display = 'none';
-  } else {
-    img.style.display = 'none';
-    placeholder.style.display = 'flex';
-  }
-
-  el('detail-name').textContent = p.name || '-';
-  el('d-category').textContent  = p.category || '-';
-  el('d-itemNo').textContent    = p.itemNo || '-';
-  el('d-color').textContent     = p.color || '-';
-  el('d-quantity').textContent  = (() => {
-    const q = Number(String(p.quantity || '0').replace(/,/g, ''));
-    return q > 0 ? q.toLocaleString() + '개' : '-';
-  })();
-  el('d-designer').textContent  = p.designer || '-';
-  el('d-vendor').textContent    = p.vendor || '-';
-  el('d-material').textContent  = p.material || '-';
-  el('d-weight').textContent    = p.weight || '-';
-  el('d-fiber').textContent     = p.fiber || '-';
-  el('d-kcno').textContent      = p.kcno || '-';
-  el('d-mfgDate').textContent   = p.mfgDate || '-';
-  el('d-origin').textContent    = p.origin || '-';
-
-  show('detail-overlay');
-}
-
-function closeDetail() { hide('detail-overlay'); }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
+// openDetail → 공유 detail-popup.js의 openDetailPopup 사용
+function openDetail(p) { openDetailPopup(p); }
 
 // ── 정렬 헤더 이벤트 ──────────────────────────
 document.querySelectorAll('.sortable-th').forEach(th => {

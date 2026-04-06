@@ -93,7 +93,7 @@ function renderTbody(tbodyEl, products, state) {
   }
 
   tbodyEl.innerHTML = data.map(p => `
-    <tr>
+    <tr class="ns-clickable-row" onclick="openDetailPopup(${JSON.stringify(p).replace(/"/g, '&quot;')})">
       <td>${p.category || '-'}</td>
       <td>${p.name || '-'}</td>
       <td>${p.itemNo || '-'}</td>

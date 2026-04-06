@@ -207,13 +207,11 @@ function processData(rows) {
       notStarted: notStartedProducts.length,
       progressPercent: total > 0 ? Math.round((inProgress / total) * 100) : 0,
       notStartedProducts: notStartedProducts.map(p => ({
-        name: p.name,
-        itemNo: p.itemNo,
-        image: p.image,
-        vendor: p.vendor,
-        category: p.category,
-        designer: p.designer,
-        quantity: p.quantity,
+        name: p.name, itemNo: p.itemNo, image: p.image,
+        vendor: p.vendor, category: p.category, designer: p.designer,
+        quantity: p.quantity, color: p.color, material: p.material,
+        weight: p.weight, fiber: p.fiber, kcno: p.kcno,
+        mfgDate: p.mfgDate, origin: p.origin,
       })),
     };
   });
@@ -379,12 +377,11 @@ app.get('/api/calendar', async (req, res) => {
       if (!dateKey) return;
       if (!calendar[dateKey]) calendar[dateKey] = [];
       calendar[dateKey].push({
-        name: p.name,
-        itemNo: p.itemNo,
-        category: p.category,
-        vendor: p.vendor,
-        quantity: p.quantity,
-        image: p.image,
+        name: p.name, itemNo: p.itemNo, category: p.category,
+        vendor: p.vendor, quantity: p.quantity, image: p.image,
+        designer: p.designer, color: p.color, material: p.material,
+        weight: p.weight, fiber: p.fiber, kcno: p.kcno,
+        mfgDate: p.mfgDate, origin: p.origin,
       });
     });
 
