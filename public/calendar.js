@@ -92,7 +92,7 @@ function buildCell(dateKey, dateNum, dow, isToday, isOtherMonth) {
       }
       const [, m, d] = dateKey.split('-');
       tip.innerHTML = `
-        <div class="tip-header">${parseInt(m)}월 ${parseInt(d)}일 — 입고 ${items.length}건</div>
+        <div class="tip-header">${parseInt(m)}월 ${parseInt(d)}일, 입고 ${items.length}건, 총 ${items.reduce((s, p) => s + Number(String(p.quantity || '0').replace(/,/g, '')), 0).toLocaleString()}개</div>
         <div class="tip-list">
           ${items.map(p => `
             <div class="tip-item">
