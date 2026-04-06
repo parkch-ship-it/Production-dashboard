@@ -49,7 +49,8 @@
 }
 
 .products-table tr:last-child td { border-bottom: none; }
-.products-table tr:hover td { background: #fafafa; }
+.products-table tr.clickable-row { cursor: pointer; }
+.products-table tr.clickable-row:hover td { background: #f5f3ff; }
 
 .product-name-link {
   color: #7c3aed;

@@ -53,9 +53,9 @@ function renderTable(products) {
   tbody.innerHTML = products.map(p => {
     const qty = Number(String(p.quantity || '0').replace(/,/g, ''));
     return `
-      <tr>
+      <tr class="clickable-row" onclick="openDetail(${JSON.stringify(p).replace(/"/g, '&quot;')})">
         <td>${p.category || '-'}</td>
-        <td><span class="product-name-link" onclick="openDetail(${JSON.stringify(p).replace(/"/g, '&quot;')})">${p.name || '-'}</span></td>
+        <td><span class="product-name-link">${p.name || '-'}</span></td>
         <td class="mono">${p.itemNo || '-'}</td>
         <td class="img-cell">
           ${p.image
