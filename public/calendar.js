@@ -68,32 +68,6 @@ function buildCell(dateKey, dateNum, dow, isToday, isOtherMonth) {
     tag.className = 'cal-item';
     tag.textContent = item.vendor ? `${item.name}(${item.vendor})` : item.name;
     tag.addEventListener('click', e => { e.stopPropagation(); openModal(dateKey, items); });
-
-    // 호버 팝업
-    tag.addEventListener('mouseenter', e => {
-      let tip = document.getElementById('cal-tooltip');
-      if (!tip) {
-        tip = document.createElement('div');
-        tip.id = 'cal-tooltip';
-        document.body.appendChild(tip);
-      }
-      tip.innerHTML = `
-        <div class="tip-name">${item.name || '-'}</div>
-        <div class="tip-meta">${item.itemNo || '-'} · ${item.category || '-'}</div>
-        <div class="tip-meta">${item.vendor || '-'} · ${Number(String(item.quantity || '0').replace(/,/g, '')).toLocaleString()}개</div>
-      `;
-      tip.style.display = 'block';
-      positionTooltip(tip, e);
-    });
-    tag.addEventListener('mousemove', e => {
-      const tip = document.getElementById('cal-tooltip');
-      if (tip) positionTooltip(tip, e);
-    });
-    tag.addEventListener('mouseleave', () => {
-      const tip = document.getElementById('cal-tooltip');
-      if (tip) tip.style.display = 'none';
-    });
-
     cell.appendChild(tag);
   });
 
@@ -107,6 +81,44 @@ function buildCell(dateKey, dateNum, dow, isToday, isOtherMonth) {
 
   if (items.length > 0) {
     cell.addEventListener('click', () => openModal(dateKey, items));
+
+    // 셀 호버 팝업
+    cell.addEventListener('mouseenter', e => {
+      let tip = document.getElementById('cal-tooltip');
+      if (!tip) {
+        tip = document.createElement('div');
+        tip.id = 'cal-tooltip';
+        document.body.appendChild(tip);
+      }
+      const [, m, d] = dateKey.split('-');
+      tip.innerHTML = `
+        <div class="tip-header">${parseInt(m)}월 ${parseInt(d)}일 — 입고 ${items.length}건</div>
+        <div class="tip-list">
+          ${items.map(p => `
+            <div class="tip-item">
+              ${p.image
+                ? `<img class="tip-img" src="${p.image}" alt="" onerror="this.style.display='none'">`
+                : `<div class="tip-img-placeholder"></div>`}
+              <div class="tip-info">
+                <div class="tip-name">${p.name || '-'}</div>
+                <div class="tip-meta">${p.itemNo || '-'} · ${p.category || '-'} · ${p.vendor || '-'}</div>
+              </div>
+              <div class="tip-qty">${Number(String(p.quantity || '0').replace(/,/g, '')).toLocaleString()}개</div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+      tip.style.display = 'block';
+      positionTooltip(tip, e);
+    });
+    cell.addEventListener('mousemove', e => {
+      const tip = document.getElementById('cal-tooltip');
+      if (tip && tip.style.display !== 'none') positionTooltip(tip, e);
+    });
+    cell.addEventListener('mouseleave', () => {
+      const tip = document.getElementById('cal-tooltip');
+      if (tip) tip.style.display = 'none';
+    });
   }
 
   return cell;
