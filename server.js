@@ -144,6 +144,13 @@ function processData(rows) {
   const deliveryIdx   = headerRow.findIndex(c => c === '입고일') !== -1
     ? headerRow.findIndex(c => c === '입고일')
     : headerRow.findIndex(c => c === '입고예정일');
+  const colorIdx      = headerRow.findIndex(c => c === '컬러명' || c === '컬러');
+  const materialIdx   = headerRow.findIndex(c => c === '소재명' || c === '소재');
+  const weightIdx     = headerRow.findIndex(c => c === '준량');
+  const fiberIdx      = headerRow.findIndex(c => c.includes('혼용율') || c.includes('혼용률'));
+  const kcnoIdx       = headerRow.findIndex(c => c === 'KC NO' || c === 'KC no' || c === 'KC번호' || c.toUpperCase() === 'KC NO');
+  const mfgDateIdx    = headerRow.findIndex(c => c === '제조연월' || c === '제조년월');
+  const originIdx     = headerRow.findIndex(c => c === '원산지');
 
   // 데이터 행 파싱 (제품명이 있는 행만)
   const dataRows = rows
@@ -171,6 +178,13 @@ function processData(rows) {
       designer: norm((row || [])[designerIdx] || ''),
       quantity: norm((row || [])[qtyIdx] || ''),
       deliveryDate: norm((row || [])[deliveryIdx] || ''),
+      color: colorIdx !== -1 ? norm((row || [])[colorIdx] || '') : '',
+      material: materialIdx !== -1 ? norm((row || [])[materialIdx] || '') : '',
+      weight: weightIdx !== -1 ? norm((row || [])[weightIdx] || '') : '',
+      fiber: fiberIdx !== -1 ? norm((row || [])[fiberIdx] || '') : '',
+      kcno: kcnoIdx !== -1 ? norm((row || [])[kcnoIdx] || '') : '',
+      mfgDate: mfgDateIdx !== -1 ? norm((row || [])[mfgDateIdx] || '') : '',
+      origin: originIdx !== -1 ? norm((row || [])[originIdx] || '') : '',
       processes: processStatus,
     };
   });
@@ -374,6 +388,24 @@ app.get('/api/calendar', async (req, res) => {
     res.json(calendar);
   } catch (err) {
     console.error('캘린더 API 오류:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 전체 제품 리스트 API
+app.get('/api/products', async (_req, res) => {
+  try {
+    if (!hasToken()) return res.status(401).json({ error: 'unauthorized' });
+    const oAuth2Client = getOAuth2Client();
+    oAuth2Client.setCredentials(readToken());
+    oAuth2Client.on('tokens', (newTokens) => {
+      saveToken({ ...readToken(), ...newTokens });
+    });
+    const rows = await fetchSheetData(oAuth2Client);
+    const { products } = processData(rows);
+    res.json(products);
+  } catch (err) {
+    console.error('products API 오류:', err.message);
     res.status(500).json({ error: err.message });
   }
 });

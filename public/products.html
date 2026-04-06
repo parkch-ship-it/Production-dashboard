@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>전체 제품 리스트</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="products.css">
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <a href="/" class="back-btn">← 대시보드</a>
+      <h1>전체 제품 리스트</h1>
+      <span id="updated-at"></span>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <span id="product-count" style="color:#9ca3af;font-size:0.85rem;"></span>
+      <button id="refresh-btn" onclick="loadProducts()">새로고침</button>
+    </div>
+  </header>
+
+  <main>
+    <div id="loading" class="loading">
+      <div class="spinner"></div>
+      <p>데이터를 불러오는 중...</p>
+    </div>
+    <div id="error-screen" class="error-screen hidden">
+      <p id="error-msg"></p>
+      <button onclick="loadProducts()">다시 시도</button>
+    </div>
+    <div id="products-wrap" class="hidden">
+      <div class="table-wrap">
+        <table class="products-table" id="products-table">
+          <thead>
+            <tr>
+              <th class="sortable-th" data-col="category">복종<span class="sort-icon">↕</span></th>
+              <th class="sortable-th" data-col="name">제품명<span class="sort-icon">↕</span></th>
+              <th class="sortable-th" data-col="itemNo">품번<span class="sort-icon">↕</span></th>
+              <th>이미지</th>
+              <th class="sortable-th" data-col="vendor">업체<span class="sort-icon">↕</span></th>
+              <th class="sortable-th" data-col="designer">담당 디자이너<span class="sort-icon">↕</span></th>
+              <th class="sortable-th" data-col="quantity">수량<span class="sort-icon">↕</span></th>
+            </tr>
+          </thead>
+          <tbody id="products-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- 상세 팝업 -->
+  <div id="detail-overlay" class="detail-overlay hidden" onclick="closeDetail()">
+    <div class="detail-box" onclick="event.stopPropagation()">
+      <button class="detail-close" onclick="closeDetail()">✕</button>
+      <div class="detail-img-wrap">
+        <img id="detail-img" src="" alt="도식화" onerror="this.style.display='none'">
+        <div id="detail-img-placeholder" class="detail-img-placeholder">👕</div>
+      </div>
+      <div class="detail-body">
+        <div class="detail-title" id="detail-name"></div>
+        <div class="detail-grid">
+          <div class="detail-row"><span class="detail-label">복종</span><span class="detail-val" id="d-category"></span></div>
+          <div class="detail-row"><span class="detail-label">품번</span><span class="detail-val" id="d-itemNo"></span></div>
+          <div class="detail-row"><span class="detail-label">컬러명</span><span class="detail-val" id="d-color"></span></div>
+          <div class="detail-row"><span class="detail-label">수량</span><span class="detail-val" id="d-quantity"></span></div>
+          <div class="detail-row"><span class="detail-label">담당 디자이너</span><span class="detail-val" id="d-designer"></span></div>
+          <div class="detail-row"><span class="detail-label">업체</span><span class="detail-val" id="d-vendor"></span></div>
+          <div class="detail-row"><span class="detail-label">소재명</span><span class="detail-val" id="d-material"></span></div>
+          <div class="detail-row"><span class="detail-label">준량</span><span class="detail-val" id="d-weight"></span></div>
+          <div class="detail-row detail-row-full"><span class="detail-label">섬유 혼용율</span><span class="detail-val" id="d-fiber"></span></div>
+          <div class="detail-row"><span class="detail-label">KC NO</span><span class="detail-val" id="d-kcno"></span></div>
+          <div class="detail-row"><span class="detail-label">제조연월</span><span class="detail-val" id="d-mfgDate"></span></div>
+          <div class="detail-row"><span class="detail-label">원산지</span><span class="detail-val" id="d-origin"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="products.js"></script>
+</body>
+</html>

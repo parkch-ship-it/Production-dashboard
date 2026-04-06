@@ -1,0 +1,208 @@
+/* ── 뒤로가기 버튼 ──────────────────────────── */
+.back-btn {
+  color: #9ca3af;
+  text-decoration: none;
+  font-size: 0.85rem;
+  display: block;
+  margin-bottom: 4px;
+  transition: color 0.2s;
+}
+.back-btn:hover { color: #fff; }
+
+/* ── 테이블 래퍼 ────────────────────────────── */
+.table-wrap {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  overflow-x: auto;
+}
+
+/* ── 제품 테이블 ────────────────────────────── */
+.products-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.products-table th {
+  background: #f9fafb;
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  color: #6b7280;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+.products-table th.sorted { color: #7c3aed; }
+.products-table th.sortable-th { cursor: pointer; user-select: none; }
+.products-table th.sortable-th:hover { background: #f0f0f0; }
+
+.products-table td {
+  padding: 10px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #1a1f2e;
+  vertical-align: middle;
+}
+
+.products-table tr:last-child td { border-bottom: none; }
+.products-table tr:hover td { background: #fafafa; }
+
+.product-name-link {
+  color: #7c3aed;
+  cursor: pointer;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.product-name-link:hover { color: #6d28d9; }
+
+.img-cell { width: 72px; text-align: center; }
+
+.product-thumb {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.thumb-placeholder {
+  width: 52px;
+  height: 52px;
+  background: #f3f4f6;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin: 0 auto;
+}
+
+.qty-cell { text-align: right; font-weight: 600; color: #2563eb; }
+.mono { font-family: monospace; font-size: 0.82rem; color: #6b7280; }
+
+/* ── 상세 팝업 ──────────────────────────────── */
+.detail-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.detail-box {
+  background: #fff;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 420px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+}
+
+.detail-close {
+  position: sticky;
+  top: 12px;
+  float: right;
+  margin: 12px 12px 0 0;
+  background: #f3f4f6;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+.detail-close:hover { background: #e5e7eb; }
+
+.detail-img-wrap {
+  width: 100%;
+  aspect-ratio: 1;
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px 16px 0 0;
+  overflow: hidden;
+}
+
+#detail-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 16px;
+}
+
+.detail-img-placeholder {
+  font-size: 5rem;
+  color: #d1d5db;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detail-body { padding: 20px 24px 28px; }
+
+.detail-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1a1f2e;
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.detail-row {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 14px;
+  border-bottom: 1px solid #f1f5f9;
+  border-right: 1px solid #f1f5f9;
+}
+
+.detail-row:nth-child(even) { border-right: none; }
+.detail-row:last-child,
+.detail-row:nth-last-child(2):nth-child(odd) { border-bottom: none; }
+
+.detail-row-full {
+  grid-column: 1 / -1;
+  border-right: none;
+}
+
+.detail-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-bottom: 3px;
+}
+
+.detail-val {
+  font-size: 0.875rem;
+  color: #1a1f2e;
+  font-weight: 500;
+  word-break: break-all;
+}
