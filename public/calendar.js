@@ -7,6 +7,16 @@ let viewMode = 'month'; // 'month' | 'week'
 const DOWS = ['일', '월', '화', '수', '목', '금', '토'];
 
 function el(id) { return document.getElementById(id); }
+
+function positionTooltip(tip, e) {
+  const offset = 14;
+  let x = e.clientX + offset;
+  let y = e.clientY + offset;
+  if (x + 220 > window.innerWidth) x = e.clientX - 220 - offset;
+  if (y + 80 > window.innerHeight) y = e.clientY - 80 - offset;
+  tip.style.left = x + 'px';
+  tip.style.top  = y + 'px';
+}
 function show(id) { el(id).classList.remove('hidden'); }
 function hide(id) { el(id).classList.add('hidden'); }
 
@@ -57,8 +67,33 @@ function buildCell(dateKey, dateNum, dow, isToday, isOtherMonth) {
     const tag = document.createElement('div');
     tag.className = 'cal-item';
     tag.textContent = item.vendor ? `${item.name}(${item.vendor})` : item.name;
-    tag.title = `${item.name}(${item.vendor || '-'}) ${item.quantity}개`;
     tag.addEventListener('click', e => { e.stopPropagation(); openModal(dateKey, items); });
+
+    // 호버 팝업
+    tag.addEventListener('mouseenter', e => {
+      let tip = document.getElementById('cal-tooltip');
+      if (!tip) {
+        tip = document.createElement('div');
+        tip.id = 'cal-tooltip';
+        document.body.appendChild(tip);
+      }
+      tip.innerHTML = `
+        <div class="tip-name">${item.name || '-'}</div>
+        <div class="tip-meta">${item.itemNo || '-'} · ${item.category || '-'}</div>
+        <div class="tip-meta">${item.vendor || '-'} · ${Number(String(item.quantity || '0').replace(/,/g, '')).toLocaleString()}개</div>
+      `;
+      tip.style.display = 'block';
+      positionTooltip(tip, e);
+    });
+    tag.addEventListener('mousemove', e => {
+      const tip = document.getElementById('cal-tooltip');
+      if (tip) positionTooltip(tip, e);
+    });
+    tag.addEventListener('mouseleave', () => {
+      const tip = document.getElementById('cal-tooltip');
+      if (tip) tip.style.display = 'none';
+    });
+
     cell.appendChild(tag);
   });
 

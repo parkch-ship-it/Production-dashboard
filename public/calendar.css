@@ -224,6 +224,24 @@
 .modal-meta { font-size: 0.78rem; color: var(--text-muted); }
 .modal-qty  { font-size: 0.85rem; font-weight: 600; color: var(--blue); white-space: nowrap; }
 
+/* ── 호버 툴팁 ──────────────────────────────── */
+#cal-tooltip {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  background: #1e293b;
+  color: #f1f5f9;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.78rem;
+  pointer-events: none;
+  min-width: 180px;
+  max-width: 220px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+}
+.tip-name { font-weight: 600; font-size: 0.85rem; margin-bottom: 4px; }
+.tip-meta { color: #94a3b8; line-height: 1.6; }
+
 @media (max-width: 600px) {
   .calendar-grid { grid-template-columns: repeat(7, minmax(44px, 1fr)); font-size: 0.7rem; }
   .cal-cell { min-height: 70px; padding: 4px; }
