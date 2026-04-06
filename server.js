@@ -145,7 +145,7 @@ function processData(rows) {
     ? headerRow.findIndex(c => c === '입고일')
     : headerRow.findIndex(c => c === '입고예정일');
   const colorIdx      = headerRow.findIndex(c => c === '컬러명' || c === '컬러');
-  const materialIdx   = headerRow.findIndex(c => c === '소재명' || c === '소재' || c === '원단명' || c === '원단');
+  const materialIdx   = headerRow.findIndex(c => c === '소재명' || c === '소재' || c === '원단명' || c === '원단' || c.startsWith('소재명'));
   const weightIdx     = headerRow.findIndex(c => c === '중량' || c === '준량' || c === '중량(g)');
   const fiberIdx      = headerRow.findIndex(c => c.includes('혼용율') || c.includes('혼용률'));
   const kcnoIdx       = headerRow.findIndex(c => {
