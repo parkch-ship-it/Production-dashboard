@@ -224,6 +224,17 @@
 .modal-meta { font-size: 0.78rem; color: var(--text-muted); }
 .modal-qty  { font-size: 0.85rem; font-weight: 600; color: var(--blue); white-space: nowrap; }
 
+/* ── 캘린더 모달 아이템 클릭 ────────────────── */
+.cal-modal-clickable {
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.15s;
+}
+.cal-modal-clickable:hover { background: #f0f9ff; }
+
+/* 캘린더 페이지의 상세 팝업은 모달(z-index:500) 위에 표시 */
+#detail-overlay { z-index: 600; }
+
 /* ── 호버 툴팁 ──────────────────────────────── */
 #cal-tooltip {
   display: none;

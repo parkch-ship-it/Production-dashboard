@@ -102,9 +102,9 @@ function processData(rows) {
   let headerRowIdx = -1;
   for (let i = 0; i < Math.min(rows.length, 10); i++) {
     const r = (rows[i] || []).map(norm);
-    const hasNO   = r.some(c => c === 'NO' || c === 'NO.');
-    const hasName = r.some(c => c === '제품명');
-    if (hasNO && hasName) { headerRowIdx = i; break; }
+    const hasName   = r.some(c => c === '제품명');
+    const hasItemNo = r.some(c => c === '품번');
+    if (hasName && hasItemNo) { headerRowIdx = i; break; }
   }
   if (headerRowIdx === -1) return { processStats: [], products: [] };
 
