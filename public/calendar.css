@@ -1,7 +1,7 @@
 /* ── 뷰 토글 버튼 ──────────────────────────── */
 .view-toggle {
   display: flex;
-  background: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.07);
   border-radius: 8px;
   padding: 2px;
   gap: 2px;
@@ -10,7 +10,7 @@
 .view-btn {
   background: transparent;
   border: none;
-  color: #9ca3af;
+  color: #8892a4;
   font-size: 0.85rem;
   font-weight: 600;
   padding: 5px 14px;
@@ -20,26 +20,26 @@
 }
 
 .view-btn.active {
-  background: #3b82f6;
-  color: #fff;
+  background: #4ecdc4;
+  color: #0f1221;
 }
 
-.view-btn:not(.active):hover { color: #fff; }
+.view-btn:not(.active):hover { color: #e2e8f0; }
 
 /* ── 헤더 추가 스타일 ───────────────────────── */
 .back-btn {
-  color: #9ca3af;
+  color: #8892a4;
   text-decoration: none;
   font-size: 0.85rem;
   margin-right: 14px;
   transition: color 0.15s;
 }
-.back-btn:hover { color: #fff; }
+.back-btn:hover { color: #e2e8f0; }
 
 .nav-btn {
-  background: rgba(255,255,255,0.1);
-  border: none;
-  color: #fff;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid #2a3347;
+  color: #e2e8f0;
   font-size: 1.4rem;
   width: 32px;
   height: 32px;
@@ -48,14 +48,14 @@
   line-height: 1;
   transition: background 0.15s;
 }
-.nav-btn:hover { background: rgba(255,255,255,0.2); }
+.nav-btn:hover { background: rgba(78,205,196,0.15); border-color: #4ecdc4; color: #4ecdc4; }
 
 /* ── 캘린더 그리드 ──────────────────────────── */
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 1px;
-  background: var(--border);
+  background: #2a3347;
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: var(--shadow);
@@ -63,8 +63,8 @@
 
 /* 요일 헤더 */
 .cal-dow {
-  background: #1a1f2e;
-  color: #9ca3af;
+  background: #0f1221;
+  color: #8892a4;
   text-align: center;
   padding: 10px 0;
   font-size: 0.8rem;
@@ -75,39 +75,34 @@
 .cal-dow.sat { color: #60a5fa; }
 
 /* 주 뷰 그리드 */
-.week-grid {
-  grid-template-columns: repeat(7, 1fr);
-}
-
-.week-grid .cal-cell {
-  min-height: 320px;
-}
+.week-grid { grid-template-columns: repeat(7, 1fr); }
+.week-grid .cal-cell { min-height: 320px; }
 
 /* 다른 달 셀 */
-.cal-cell.other-month { background: #f9fafb; opacity: 0.6; }
+.cal-cell.other-month { background: #171e30; opacity: 0.6; }
 
 /* 날짜 셀 */
 .cal-cell {
-  background: var(--card-bg);
+  background: #1e2640;
   min-height: 110px;
   padding: 8px;
   position: relative;
   vertical-align: top;
   transition: background 0.1s;
 }
-.cal-cell.empty { background: #f9fafb; }
-.cal-cell.today { background: #fffbeb; }
-.cal-cell:not(.empty):hover { background: #f0f7ff; cursor: pointer; }
+.cal-cell.empty { background: #171e30; }
+.cal-cell.today { background: #1a2d3a; }
+.cal-cell:not(.empty):hover { background: #252d42; cursor: pointer; }
 
 .cal-date {
   font-size: 0.82rem;
   font-weight: 600;
   margin-bottom: 5px;
-  color: var(--text-muted);
+  color: #8892a4;
 }
 .cal-cell.today .cal-date {
-  background: #3b82f6;
-  color: #fff;
+  background: #4ecdc4;
+  color: #0f1221;
   width: 24px;
   height: 24px;
   border-radius: 50%;
@@ -116,13 +111,13 @@
   justify-content: center;
   font-size: 0.78rem;
 }
-.cal-date.sun { color: #ef4444; }
-.cal-date.sat { color: #3b82f6; }
+.cal-date.sun { color: #f87171; }
+.cal-date.sat { color: #60a5fa; }
 
 /* 제품 태그 */
 .cal-item {
-  background: #dbeafe;
-  color: #1e40af;
+  background: #0d3330;
+  color: #4ecdc4;
   border-radius: 4px;
   padding: 2px 6px;
   font-size: 0.72rem;
@@ -132,12 +127,13 @@
   text-overflow: ellipsis;
   cursor: pointer;
   transition: background 0.1s;
+  border: 1px solid #1a4a46;
 }
-.cal-item:hover { background: #bfdbfe; }
+.cal-item:hover { background: #134440; }
 
 .cal-more {
   font-size: 0.7rem;
-  color: var(--text-muted);
+  color: #8892a4;
   margin-top: 2px;
   cursor: pointer;
 }
@@ -146,7 +142,7 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.45);
+  background: rgba(0,0,0,0.65);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -154,13 +150,14 @@
 }
 
 .modal-box {
-  background: #fff;
+  background: #1e2640;
   border-radius: var(--radius);
   width: 560px;
   max-width: 95vw;
   max-height: 80vh;
   overflow-y: auto;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  border: 1px solid #2a3347;
 }
 
 .modal-header {
@@ -168,12 +165,13 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px 20px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2a3347;
   font-weight: 700;
   font-size: 1rem;
   position: sticky;
   top: 0;
-  background: #fff;
+  background: #1e2640;
+  color: #e2e8f0;
 }
 
 .modal-close {
@@ -181,18 +179,18 @@
   border: none;
   font-size: 1rem;
   cursor: pointer;
-  color: var(--text-muted);
+  color: #8892a4;
   padding: 4px 8px;
   border-radius: 4px;
 }
-.modal-close:hover { background: #f3f4f6; }
+.modal-close:hover { background: #2a3347; color: #e2e8f0; }
 
 .modal-item {
   display: flex;
   align-items: center;
   gap: 14px;
   padding: 12px 20px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2a3347;
 }
 .modal-item:last-child { border-bottom: none; }
 
@@ -201,28 +199,28 @@
   height: 56px;
   object-fit: contain;
   border-radius: 6px;
-  background: #f9fafb;
-  border: 1px solid var(--border);
+  background: #141824;
+  border: 1px solid #2a3347;
   flex-shrink: 0;
 }
 
 .modal-img-placeholder {
   width: 56px;
   height: 56px;
-  background: #f3f4f6;
+  background: #141824;
   border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #d1d5db;
+  color: #2a3347;
   font-size: 1.4rem;
   flex-shrink: 0;
 }
 
 .modal-info { flex: 1; min-width: 0; }
-.modal-name { font-weight: 600; font-size: 0.9rem; margin-bottom: 4px; }
-.modal-meta { font-size: 0.78rem; color: var(--text-muted); }
-.modal-qty  { font-size: 0.85rem; font-weight: 600; color: var(--blue); white-space: nowrap; }
+.modal-name { font-weight: 600; font-size: 0.9rem; margin-bottom: 4px; color: #e2e8f0; }
+.modal-meta { font-size: 0.78rem; color: #8892a4; }
+.modal-qty  { font-size: 0.85rem; font-weight: 600; color: #4ecdc4; white-space: nowrap; }
 
 /* ── 캘린더 모달 아이템 클릭 ────────────────── */
 .cal-modal-clickable {
@@ -230,7 +228,7 @@
   border-radius: 8px;
   transition: background 0.15s;
 }
-.cal-modal-clickable:hover { background: #f0f9ff; }
+.cal-modal-clickable:hover { background: #252d42; }
 
 /* 캘린더 페이지의 상세 팝업은 모달(z-index:500) 위에 표시 */
 #detail-overlay { z-index: 600; }
@@ -240,35 +238,32 @@
   display: none;
   position: fixed;
   z-index: 9999;
-  background: #fff;
-  color: #1e293b;
+  background: #1e2640;
+  color: #e2e8f0;
   border-radius: 12px;
   padding: 0;
   pointer-events: none;
   width: 320px;
   max-height: 420px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-  border: 1px solid #e2e8f0;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  border: 1px solid #2a3347;
   overflow: hidden;
 }
 .tip-header {
   padding: 10px 14px;
   font-weight: 700;
   font-size: 0.85rem;
-  background: #f8fafc;
-  border-bottom: 1px solid #e2e8f0;
-  color: #334155;
+  background: #192035;
+  border-bottom: 1px solid #2a3347;
+  color: #4ecdc4;
 }
-.tip-list {
-  overflow-y: auto;
-  max-height: 370px;
-}
+.tip-list { overflow-y: auto; max-height: 370px; }
 .tip-item {
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 8px 14px;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid #2a3347;
 }
 .tip-item:last-child { border-bottom: none; }
 .tip-img {
@@ -276,21 +271,21 @@
   height: 44px;
   object-fit: contain;
   border-radius: 6px;
-  background: #f9fafb;
-  border: 1px solid #e2e8f0;
+  background: #141824;
+  border: 1px solid #2a3347;
   flex-shrink: 0;
 }
 .tip-img-placeholder {
   width: 44px;
   height: 44px;
-  background: #f3f4f6;
+  background: #141824;
   border-radius: 6px;
   flex-shrink: 0;
 }
 .tip-info { flex: 1; min-width: 0; }
-.tip-name { font-weight: 600; font-size: 0.82rem; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.tip-meta { font-size: 0.73rem; color: #94a3b8; }
-.tip-qty { font-size: 0.82rem; font-weight: 600; color: #2563eb; white-space: nowrap; }
+.tip-name { font-weight: 600; font-size: 0.82rem; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #e2e8f0; }
+.tip-meta { font-size: 0.73rem; color: #8892a4; }
+.tip-qty { font-size: 0.82rem; font-weight: 600; color: #4ecdc4; white-space: nowrap; }
 
 @media (max-width: 600px) {
   .calendar-grid { grid-template-columns: repeat(7, minmax(44px, 1fr)); font-size: 0.7rem; }
